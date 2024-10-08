@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView myImageView = findViewById(R.id.myImageView);
 
 
-        // Récupérer les boutons depuis le layout
+
         Button openGPSButton = findViewById(R.id.btnGPS);
         Button btnCamera = findViewById(R.id.btnCamera);
         Button btnTemperature = findViewById(R.id.btnTemperature);
