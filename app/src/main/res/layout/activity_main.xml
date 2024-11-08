@@ -1,65 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/backgroundapp1"
-    android:paddingTop="50dp"
-    android:gravity="center"> <!-- Centrer le contenu -->
+    android:paddingTop="20dp">
 
     <TextView
-        android:id="@+id/myTextView"
-        android:layout_width="match_parent"
+        android:id="@+id/wheelChairTxt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginBottom="30dp"
         android:fontFamily="@font/vintagebrush"
-        android:text="         WheelChair++"
+        android:text="WheelChair+"
         android:textColor="#2F71BD"
-        android:textSize="50sp" />
+        android:textSize="35sp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:id="@+id/welcomeTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="Welcome User,"
+        android:textColor="#2F71BD"
+        android:textSize="25sp"
+        android:layout_below="@id/wheelChairTxt"
+        android:layout_alignStart="@id/wheelChairTxt"
+        android:layout_marginTop="5dp" />
 
     <ImageView
-        android:id="@+id/myImageView"
-        android:layout_width="match_parent"
+        android:id="@+id/wheelChairImg"
+        android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="70dp"
+        android:layout_alignTop="@id/wheelChairTxt"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="-19dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@id/welcomeTxt"
         android:src="@drawable/wheelchair" />
 
-    <Button
-        android:id="@+id/btnCamera"
+    <ImageButton
+        android:id="@+id/settingsBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end|top"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="6dp"
+        android:adjustViewBounds="true"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:backgroundTint="@android:color/white"
+        android:contentDescription="Settings"
+        android:elevation="10dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_settings"
+        android:visibility="visible" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="#2F71BD"
-        android:text="Open cam"
-        android:textColor="@android:color/white" />
+        android:orientation="vertical"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp">
 
-    <Button
-        android:id="@+id/btnGPS"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#2F71BD"
-        android:text="Open GPS"
-        android:textColor="@android:color/white" />
+        <Button
+            android:id="@+id/btnCamera"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#2F71BD"
+            android:text="Open cam"
+            android:textColor="@android:color/white" />
 
-    <Button
-        android:id="@+id/btnTemperature"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#2F71BD"
-        android:text="Set temperature"
-        android:textColor="@android:color/white" />
-</LinearLayout>
+        <Button
+            android:id="@+id/btnGPS"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#2F71BD"
+            android:text="Open GPS"
+            android:textColor="@android:color/white" />
 
+        <Button
+            android:id="@+id/btnTemperature"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#2F71BD"
+            android:text="Set temperature"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnPosture"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="#2F71BD"
+            android:text="Posture"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

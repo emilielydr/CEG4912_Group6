@@ -31,6 +31,7 @@ android {
 }
 
 dependencies {
+   // classpath("com.android.tools.build:gradle:7.3.0")
     implementation("androidx.appcompat:appcompat:1.6.1") // Version mise à jour
     implementation("com.google.android.material:material:1.10.0") // Version mise à jour
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
