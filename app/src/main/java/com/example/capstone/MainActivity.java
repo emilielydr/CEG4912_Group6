@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,13 +29,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView myImageView = findViewById(R.id.myImageView);
-
-
+        ImageView wheelChairImg = findViewById(R.id.wheelChairImg);
 
         Button openGPSButton = findViewById(R.id.btnGPS);
         Button btnCamera = findViewById(R.id.btnCamera);
         Button btnTemperature = findViewById(R.id.btnTemperature);
+        ImageButton btnSettings = findViewById(R.id.btnSettings);
 
         // Vérification de la permission pour la caméra
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -75,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
                 // Crée une intention pour passer à l'activité TemperatureActivity
                 Intent intent = new Intent(MainActivity.this, TemperatureActivity.class);
                 startActivity(intent); // Lance la nouvelle activité
+            }
+        });
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to open SettingsActivity
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
             }
         });
 
