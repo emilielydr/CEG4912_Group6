@@ -10,13 +10,13 @@
         android:id="@+id/wheelChairTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/vintagebrush"
         android:text="WheelChair+"
         android:textColor="#2F71BD"
-        android:textSize="35sp"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp" />
+        android:textSize="35sp" />
 
     <TextView
         android:id="@+id/welcomeTxt"
@@ -30,16 +30,71 @@
         android:layout_alignStart="@id/wheelChairTxt"
         android:layout_marginTop="5dp" />
 
+    <TextView
+        android:id="@+id/statusTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status: Connected"
+        android:textColor="#4CAF50"
+        android:textSize="18sp"
+        android:layout_below="@id/welcomeTxt"
+        android:layout_alignStart="@id/wheelChairTxt"
+        android:layout_marginTop="10dp" />
+
     <ImageView
         android:id="@+id/wheelChairImg"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignTop="@id/wheelChairTxt"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="-19dp"
-        android:layout_marginEnd="20dp"
         android:layout_toEndOf="@id/welcomeTxt"
         android:src="@drawable/wheelchair" />
+
+    <FrameLayout
+        android:id="@+id/tempBox"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/statusTxt"
+        android:layout_alignStart="@id/statusTxt"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/box_background"
+        android:gravity="center"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tempText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="25°C"
+            android:textColor="#081c54"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/postureBox"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/statusTxt"
+        android:layout_toEndOf="@id/tempBox"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/box_background"
+        android:gravity="center"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/postureText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Posture: Good"
+            android:textColor="#081c54"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
 
     <ImageButton
         android:id="@+id/settingsBtn"
@@ -47,17 +102,12 @@
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_gravity="end|top"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="6dp"
-        android:adjustViewBounds="true"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:backgroundTint="@android:color/white"
         android:contentDescription="Settings"
-        android:elevation="10dp"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_settings"
-        android:visibility="visible" />
+        android:src="@drawable/ic_settings" />
 
     <LinearLayout
         android:layout_width="match_parent"
