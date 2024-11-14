@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Capstone" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">#2F71BD</item>
+        <item name="colorPrimaryVariant">#2F71BD</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -13,4 +13,33 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+        <!-- Ripple effect background -->
+        <item name="android:background">@drawable/button_ripple</item>
+
+        <!-- White text color -->
+        <item name="android:textColor">#FFFFFF</item>
+
+        <!-- Larger text size for accessibility -->
+        <item name="android:textSize">20sp</item>
+
+        <!-- Modern button size -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
+
+        <!-- Margin to space out buttons -->
+        <item name="android:layout_marginBottom">12dp</item>
+
+        <!-- Subtle shadow effect for depth -->
+        <item name="android:elevation">6dp</item>
+
+        <!-- Focusable for accessibility -->
+        <item name="android:focusable">true</item>
+
+        <item name="android:importantForAccessibility">yes</item>
+
+        <!-- Accessibility content description -->
+        <item name="android:contentDescription">Interactive button</item>
+    </style>
+
 </resources>
