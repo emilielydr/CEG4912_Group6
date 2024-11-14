@@ -46,7 +46,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignTop="@id/wheelChairTxt"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="-11dp"
         android:layout_toEndOf="@id/welcomeTxt"
         android:src="@drawable/wheelchair" />
 
@@ -57,7 +58,7 @@
         android:layout_below="@id/statusTxt"
         android:layout_alignStart="@id/statusTxt"
         android:layout_marginTop="20dp"
-        android:background="@drawable/box_background"
+        android:background="@drawable/temp_box_background"
         android:gravity="center"
         android:padding="8dp">
 
@@ -68,7 +69,7 @@
             android:gravity="center"
             android:text="25°C"
             android:textColor="#081c54"
-            android:textSize="24sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
     </FrameLayout>
 
@@ -80,7 +81,7 @@
         android:layout_toEndOf="@id/tempBox"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
-        android:background="@drawable/box_background"
+        android:background="@drawable/posture_box_background"
         android:gravity="center"
         android:padding="8dp">
 
@@ -91,8 +92,9 @@
             android:gravity="center"
             android:text="Posture: Good"
             android:textColor="#081c54"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif" />
     </FrameLayout>
 
 
@@ -123,35 +125,42 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#2F71BD"
-            android:text="Open cam"
-            android:textColor="@android:color/white" />
+            android:background="@drawable/button_ripple"
+            android:text="Open Cam"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnGPS"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#2F71BD"
+            android:background="@drawable/button_ripple"
             android:text="Open GPS"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnTemperature"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#2F71BD"
-            android:text="Set temperature"
-            android:textColor="@android:color/white" />
+            android:background="@drawable/button_ripple"
+            android:text="Set Temperature"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnPosture"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:backgroundTint="#2F71BD"
+            android:background="@drawable/button_ripple"
             android:text="Posture"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+
+
     </LinearLayout>
 
 </RelativeLayout>
