@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         Button btnCamera = findViewById(R.id.btnCamera);
         Button btnTemperature = findViewById(R.id.btnTemperature);
         ImageButton btnSettings = findViewById(R.id.btnSettings);
-
         // Vérification de la permission pour la caméra
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
