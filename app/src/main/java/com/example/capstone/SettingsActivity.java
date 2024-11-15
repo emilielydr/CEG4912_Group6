@@ -14,6 +14,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Initialize button after setContentView()
         Button btnLoginSignup = findViewById(R.id.btnLoginSignup);
+        Button btnAccessibility= findViewById(R.id.btnAccessibility);
 
         // Set the click listener for the Login button
         btnLoginSignup.setOnClickListener(new View.OnClickListener() {
@@ -21,6 +22,15 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Create an Intent to open SettingsActivity
                 Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnAccessibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to open SettingsActivity
+                Intent intent = new Intent(SettingsActivity.this, AccessibilityActivity.class);
                 startActivity(intent);
             }
         });
