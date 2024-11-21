@@ -1,7 +1,10 @@
 plugins {
     id("com.android.application")
     kotlin("android") version "1.8.0" // Assurez-vous d'importer la bonne version de Kotlin
+
+    id("com.google.gms.google-services")
 }
+
 
 
 android {
@@ -11,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.capstone"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 33  // Utilisez SDK 33
         versionCode = 1
         versionName = "1.0"
@@ -40,12 +43,16 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.2.2")) // Remplacez par la version récente si nécessaire
+    implementation("com.google.firebase:firebase-auth-ktx")
 
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.google.firebase:firebase-analytics")
 
 
 }
