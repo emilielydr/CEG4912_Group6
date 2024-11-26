@@ -19,6 +19,24 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        Button btnBackSettings= findViewById(R.id.btnBackSettings);
+        btnBackSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to open SettingsActivity
+                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        Button btnAccessibility= findViewById(R.id.btnAccessibility);
+        btnAccessibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to open SettingsActivity
+                Intent intent = new Intent(SettingsActivity.this, AccessibilityActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Initialisation de FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -28,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Ajouter un écouteur de clic
         btnSignOut.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
