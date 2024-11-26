@@ -3,13 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-
     tools:context=".TemperatureActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/backgroundapp1"
-
     android:gravity="center">
 
     <FrameLayout
@@ -26,8 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/wheelchair" />
-
-
     </FrameLayout>
 
     <FrameLayout
@@ -45,76 +40,37 @@
             android:id="@+id/wheelChairTxt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:fontFamily="@font/vintagebrush"
             android:gravity="center"
             android:text=" WheelChair+"
             android:textColor="#2F71BD"
             android:textSize="40sp" />
-
     </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="97dp"
-        android:layout_height="286dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <!-- Add a proper layout height and width to temperatureHeader -->
+    <TextView
+        android:id="@+id/temperatureHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cooling"
+        android:textColor="#2F71BD"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_marginTop="20dp" />
+
+    <!-- SeekBar to adjust temperature -->
+    <SeekBar
+        android:id="@+id/coolingSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:max="30"
+        android:progress="20"
+        android:progressDrawable="@drawable/seekbar_progress"
+        android:thumb="@drawable/thumb_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.112"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="0.539">
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="#8A2807"
-            android:text="Heating"
-            android:textSize="13sp"
-            android:textColor="@android:color/white"/>
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/frameLayout3"
-        android:layout_width="97dp"
-        android:layout_height="286dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.112"
-        app:layout_constraintStart_toEndOf="@+id/frameLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="0.539">
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Cooling"
-            android:backgroundTint="#00B2FF"
-            android:textSize="13sp"
-            android:textColor="@android:color/white"/>
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="97dp"
-        android:layout_height="286dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.379"
-        app:layout_constraintStart_toEndOf="@+id/frameLayout3"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="0.539">
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Auto"
-            android:backgroundTint="#2F3335"
-            android:textSize="13sp"
-            android:textColor="@android:color/white"/>
-    </FrameLayout>
-
+        app:layout_constraintTop_toBottomOf="@id/temperatureHeader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
