@@ -55,4 +55,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
 
 
+    implementation("com.google.android.things:androidthings:1.0")
+
+
 }
