@@ -40,6 +40,16 @@
         android:layout_below="@id/welcomeTxt"
         android:layout_alignStart="@id/wheelChairTxt"
         android:layout_marginTop="10dp" />
+    <TextView
+        android:id="@+id/bluetoothStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth: Not Connected"
+        android:textColor="#FF0000"
+        android:textSize="18sp"
+        android:layout_below="@id/statusTxt"
+        android:layout_alignStart="@id/statusTxt"
+        android:layout_marginTop="5dp" />
 
     <ImageView
         android:id="@+id/wheelChairImg"
@@ -166,6 +176,9 @@
             android:text="Pair Bluetooth"
             android:layout_marginTop="20dp"
             android:layout_gravity="center" />
+
+
+
 
 
 
