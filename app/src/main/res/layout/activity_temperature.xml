@@ -73,4 +73,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/temperatureHeader" />
 
+    <!-- Temperature, Humidity, and Pressure TextViews -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/coolingSlider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tempTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Temperature: -- °C"
+            android:textSize="18sp"
+            android:textColor="#2F71BD"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/humidityTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Humidity: -- %"
+            android:textSize="18sp"
+            android:textColor="#2F71BD"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/pressureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pressure: -- hPa"
+            android:textSize="18sp"
+            android:textColor="#2F71BD"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
