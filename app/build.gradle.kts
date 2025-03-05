@@ -9,20 +9,20 @@ plugins {
 
 android {
     namespace = "com.example.capstone"
-    compileSdk = 34
+    compileSdk = 35
     // Utilisez SDK 33
 
     defaultConfig {
         applicationId = "com.example.capstone"
         minSdk = 23
-        targetSdk = 33  // Utilisez SDK 33
+        targetSdk = 34 // Utilisez SDK 33
         versionCode = 1
         versionName = "1.0"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8 // Utilisez JavaVersion pour la compatibilité source
-        targetCompatibility = JavaVersion.VERSION_1_8 // Utilisez JavaVersion pour la compatibilité cible
+        sourceCompatibility = JavaVersion.VERSION_17 // Utilisez JavaVersion pour la compatibilité source
+        targetCompatibility = JavaVersion.VERSION_17 // Utilisez JavaVersion pour la compatibilité cible
     }
 
     buildTypes {
@@ -39,7 +39,8 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0") // Version mise à jour
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(kotlin("stdlib", "1.8.0"))
-    implementation(libs.activity) // Utilisation correcte pour la version de Kotlin
+    implementation(libs.activity)
+    implementation(libs.firebase.database) // Utilisation correcte pour la version de Kotlin
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

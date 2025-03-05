@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -39,23 +40,90 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private FirebaseAuth firebaseAuth;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         bluetoothStatus = findViewById(R.id.bluetoothStatus);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+        checkAndRequestBluetoothPermissions(); // 🔹 Nouvelle méthode pour gérer les permissions
+
         checkBluetoothConnection();
-        ////////////
-        // Initialiser Bluetooth
-        if (checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_ENABLE_BT);
-        } else {
-            enableBluetooth();
+
+        // Initialisation de FirebaseAuth
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        ImageView wheelChairImg = findViewById(R.id.wheelChairImg);
+        Button openGPSButton = findViewById(R.id.btnGPS);
+        Button btnCamera = findViewById(R.id.btnCamera);
+        Button btnTemperature = findViewById(R.id.btnTemperature);
+        ImageButton btnSettings = findViewById(R.id.btnSettings);
+
+        // Vérification et demande de permission pour la caméra
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+        }
+
+        // Bouton pour ouvrir la caméra
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, 100);
+                } else {
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.CAMERA}, 1);
+                }
+            }
+        });
+
+        // Bouton pour ouvrir Google Maps avec une recherche GPS
+        openGPSButton.setOnClickListener(v -> {
+            Log.d("MainActivity", "Bouton GPS cliqué !");
+            openMaps();
+        });
+
+        // Bouton pour aller à TemperatureActivity
+        btnTemperature.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, TemperatureActivity.class);
+            startActivity(intent);
+        });
+
+        // Bouton pour aller à SettingsActivity
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+    }
+
+
+    private void checkAndRequestBluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12+ (API 31+)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.BLUETOOTH_CONNECT,
+                        Manifest.permission.BLUETOOTH_SCAN
+                }, REQUEST_ENABLE_BT);
+            }
+        } else { // Android 6.0 - 11
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                }, REQUEST_ENABLE_BT);
+            }
         }
     }
+
+
 
     private void enableBluetooth() {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -100,85 +168,25 @@ public class MainActivity extends AppCompatActivity {
         }, BluetoothProfile.HEADSET); // You can use A2DP or other profiles if needed
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         if (requestCode == REQUEST_ENABLE_BT) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 enableBluetooth();
             } else {
                 Toast.makeText(this, "Bluetooth permission denied", Toast.LENGTH_SHORT).show();
             }
-        };
-
-
-
-
-
-
-        // Initialisation de FirebaseAuth
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        ImageView wheelChairImg = findViewById(R.id.wheelChairImg);
-
-        Button openGPSButton = findViewById(R.id.btnGPS);
-        Button btnCamera = findViewById(R.id.btnCamera);
-        Button btnTemperature = findViewById(R.id.btnTemperature);
-        ImageButton btnSettings = findViewById(R.id.btnSettings);
-
-        // Vérification et demande de permission pour la caméra
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+        } else if (requestCode == 1) { // Permission pour la caméra
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, 100);
+            } else {
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+            }
         }
-
-        // Bouton pour ouvrir la caméra
-        btnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-
-
-
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, 100);
-                } else {
-                    ActivityCompat.requestPermissions(MainActivity.this,
-                            new String[]{Manifest.permission.CAMERA}, 1);
-                }
-            }
-        });
-
-        // Bouton pour ouvrir Google Maps avec une recherche GPS
-        openGPSButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("MainActivity", "Bouton GPS cliqué !");
-                openMaps();
-            }
-        });
-
-        // Bouton pour aller à TemperatureActivity
-        btnTemperature.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TemperatureActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Bouton pour aller à SettingsActivity
-        btnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void openMaps() {
