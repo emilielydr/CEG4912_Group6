@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,7 +31,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 
+
+
+
+
 public class MainActivity extends AppCompatActivity {
+    private static final String RPI_HOSTNAME = "raspberry5alex.duckdns.org"; // 🔹 Remplace par ton sous-domaine DuckDNS
+    private static final String USERNAME = "pi"; // 🔹 Nom d’utilisateur Raspberry Pi
+    private static final String PASSWORD = "raspberry"; // 🔹 Mot de passe Raspberry Pi
+    private static final String STREAM_URL = "http://" + RPI_HOSTNAME + ":8080";
+    private WebView webView;
+    private Button btnCamera;
+
+
+
+
+
 
     private TextView bluetoothStatus;
     private BluetoothAdapter bluetoothAdapter;
@@ -47,12 +63,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bluetoothStatus = findViewById(R.id.bluetoothStatus);
+
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        checkAndRequestBluetoothPermissions(); // 🔹 Nouvelle méthode pour gérer les permissions
+        checkAndRequestBluetoothPermissions(); // 🔹 Gestion des permissions Bluetooth
 
-        checkBluetoothConnection();
 
         // Initialisation de FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -63,26 +78,33 @@ public class MainActivity extends AppCompatActivity {
         Button btnTemperature = findViewById(R.id.btnTemperature);
         ImageButton btnSettings = findViewById(R.id.btnSettings);
 
+        // 🔹 Ajout de la WebView pour le stream Raspberry Pi
+        WebView webView = findViewById(R.id.webView);
+        webView.getSettings().setJavaScriptEnabled(true); // Activer JavaScript pour le stream
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        webView.setVisibility(View.GONE);
+
+
+
         // Vérification et demande de permission pour la caméra
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
         }
 
-        // Bouton pour ouvrir la caméra
+        // 🔹 Bouton pour ouvrir la caméra et afficher le stream
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, 100);
-                } else {
-                    ActivityCompat.requestPermissions(MainActivity.this,
-                            new String[]{Manifest.permission.CAMERA}, 1);
-                }
+                webView.setVisibility(View.VISIBLE); // Toujours afficher WebView
+                webView.loadUrl(STREAM_URL); // Charger le flux Raspberry Pi
+
+                Toast.makeText(MainActivity.this, "Affichage du flux vidéo de la caméra Raspberry Pi", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         // Bouton pour ouvrir Google Maps avec une recherche GPS
         openGPSButton.setOnClickListener(v -> {
@@ -102,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
 
 
     private void checkAndRequestBluetoothPermissions() {
@@ -143,30 +166,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkBluetoothConnection() {
-        if (bluetoothAdapter == null) {
-            bluetoothStatus.setText("Bluetooth: Not Supported");
-            return;
-        }
 
-        bluetoothAdapter.getProfileProxy(this, new BluetoothProfile.ServiceListener() {
-            @Override
-            public void onServiceConnected(int profile, BluetoothProfile proxy) {
-                List<BluetoothDevice> connectedDevices = proxy.getConnectedDevices();
-                if (!connectedDevices.isEmpty()) {
-                    bluetoothStatus.setText("Connected to: " + connectedDevices.get(0).getName());
-                } else {
-                    bluetoothStatus.setText("Bluetooth: Not Connected");
-                }
-                bluetoothAdapter.closeProfileProxy(profile, proxy);
-            }
-
-            @Override
-            public void onServiceDisconnected(int profile) {
-                bluetoothStatus.setText("Bluetooth: Disconnected");
-            }
-        }, BluetoothProfile.HEADSET); // You can use A2DP or other profiles if needed
-    }
 
 
     @Override

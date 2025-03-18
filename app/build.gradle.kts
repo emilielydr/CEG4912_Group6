@@ -57,6 +57,7 @@ dependencies {
 
 
     implementation("com.google.android.things:androidthings:1.0")
+    implementation("com.jcraft:jsch:0.1.55")
 
 
 }

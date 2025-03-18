@@ -18,11 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 public class TemperatureActivity extends AppCompatActivity {
 
-    private TextView tempTextView;
-    private DatabaseReference databaseReference;
+    private TextView tempTextView, postureTextView; // Add a new TextView for posture
+    private DatabaseReference tempDatabaseRef, pressureDatabaseRef;
     private Handler handler;
 
     @Override
@@ -38,37 +37,65 @@ public class TemperatureActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize TextView
+        // Initialize TextViews
         tempTextView = findViewById(R.id.tempTextView);
+        postureTextView = findViewById(R.id.postureTextView); // New TextView for posture
         handler = new Handler(Looper.getMainLooper());
 
-        // Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("temperature_data");
+        // Firebase Database references
+        tempDatabaseRef = FirebaseDatabase.getInstance().getReference("temperature_data");
+        pressureDatabaseRef = FirebaseDatabase.getInstance().getReference("capteur_pression");
 
-        // Read temperature from Firebase
+        // Fetch temperature and posture data
         fetchTemperature();
+        fetchPosture();
     }
 
     private void fetchTemperature() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        tempDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     Double temperature = snapshot.child("temperature").getValue(Double.class);
-
                     if (temperature != null) {
                         tempTextView.setText("Temperature: " + temperature + " °C");
                     } else {
                         showToast("Temperature data not found");
                     }
                 } else {
-                    showToast("No data available in Firebase");
+                    showToast("No temperature data available");
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 showToast("Failed to read temperature: " + error.getMessage());
+            }
+        });
+    }
+
+    private void fetchPosture() {
+        pressureDatabaseRef.child("voltage").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Double voltage = snapshot.getValue(Double.class);
+                    if (voltage != null) {
+                        // Determine posture based on voltage threshold
+                        if (voltage > 0.8) {
+                            postureTextView.setText("Good Posture");
+                            postureTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                        } else {
+                            postureTextView.setText("Bad Posture");
+                            postureTextView.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                showToast("Failed to read posture: " + error.getMessage());
             }
         });
     }
