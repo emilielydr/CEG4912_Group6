@@ -18,17 +18,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class TemperatureActivity extends AppCompatActivity {
+public class PostureActivity extends AppCompatActivity {
 
-    private TextView tempTextView; //postureTextView; // Add a new TextView for posture
-    private DatabaseReference tempDatabaseRef, pressureDatabaseRef;
+    private TextView postureTextView;// Add a  TextView for posture
+    private DatabaseReference  pressureDatabaseRef;
     private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_temperature);
+        setContentView(R.layout.activity_posture);
 
         // Apply insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -38,42 +38,13 @@ public class TemperatureActivity extends AppCompatActivity {
         });
 
         // Initialize TextViews
-        tempTextView = findViewById(R.id.tempTextView);
-        //postureTextView = findViewById(R.id.postureTextView); // New TextView for posture
+        postureTextView = findViewById(R.id.postureTextView); // New TextView for posture
         handler = new Handler(Looper.getMainLooper());
 
-        // Firebase Database references
-        tempDatabaseRef = FirebaseDatabase.getInstance().getReference("temperature_data");
-        //pressureDatabaseRef = FirebaseDatabase.getInstance().getReference("capteur_pression");
-
-        // Fetch temperature and posture data
-        fetchTemperature();
-        //fetchPosture();
+        pressureDatabaseRef = FirebaseDatabase.getInstance().getReference("capteur_pression");
+        fetchPosture();
     }
 
-    private void fetchTemperature() {
-        tempDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Double temperature = snapshot.child("temperature").getValue(Double.class);
-                    if (temperature != null) {
-                        tempTextView.setText("Temperature: " + temperature + " °C");
-                    } else {
-                        showToast("Temperature data not found");
-                    }
-                } else {
-                    showToast("No temperature data available");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                showToast("Failed to read temperature: " + error.getMessage());
-            }
-        });
-    }
-/**
     private void fetchPosture() {
         pressureDatabaseRef.child("voltage").addValueEventListener(new ValueEventListener() {
             @Override
@@ -98,7 +69,7 @@ public class TemperatureActivity extends AppCompatActivity {
                 showToast("Failed to read posture: " + error.getMessage());
             }
         });
-    }**/
+    }
 
     private void showToast(String message) {
         handler.post(() -> Toast.makeText(this, message, Toast.LENGTH_LONG).show());

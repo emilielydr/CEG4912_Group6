@@ -31,6 +31,9 @@
         <activity
             android:name=".TemperatureActivity"
             android:exported="false" />
+        <activity
+            android:name=".PostureActivity"
+            android:exported="false" />
 
         <!-- Déplacez le intent-filter ici -->
         <activity

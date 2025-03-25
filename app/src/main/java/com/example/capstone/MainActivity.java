@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         Button openGPSButton = findViewById(R.id.btnGPS);
         Button btnCamera = findViewById(R.id.btnCamera);
         Button btnTemperature = findViewById(R.id.btnTemperature);
+        Button btnPosture = findViewById(R.id.btnPosture);
         ImageButton btnSettings = findViewById(R.id.btnSettings);
 
         // 🔹 Ajout de la WebView pour le stream Raspberry Pi
@@ -115,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
         // Bouton pour aller à TemperatureActivity
         btnTemperature.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, TemperatureActivity.class);
+            startActivity(intent);
+        });
+        // Bouton pour aller à PostureActivity
+        btnPosture.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, PostureActivity.class);
             startActivity(intent);
         });
 
