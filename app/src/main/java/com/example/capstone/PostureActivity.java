@@ -55,10 +55,13 @@ public class PostureActivity extends AppCompatActivity {
                         // Determine posture based on voltage threshold
                         if (voltage > 0.8) {
                             postureTextView.setText("Good Posture");
-                            postureTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                            postureTextView.setTextColor(getResources().getColor(android.R.color.white));
+                            postureTextView.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
                         } else {
                             postureTextView.setText("Bad Posture");
-                            postureTextView.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                            postureTextView.setTextColor(getResources().getColor(android.R.color.white));
+                            postureTextView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+
                         }
                     }
                 }

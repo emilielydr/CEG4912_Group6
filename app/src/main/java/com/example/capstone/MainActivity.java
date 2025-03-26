@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private Button btnCamera;
 
-
+    private TextView postureText;
+    private FrameLayout postureBox;
 
 
 
@@ -67,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         checkAndRequestBluetoothPermissions(); // 🔹 Gestion des permissions Bluetooth
-
+        postureText = findViewById(R.id.postureText);
+        postureBox = findViewById(R.id.postureBox);
+        //FrameLayout postureBox = findViewById(R.id.postureBox);
+        // Call the updatePosture method to simulate posture change
+        updatePosture(0.7); // Pass in a value to test; 0.7 would be "Bad Posture"
 
         // Initialisation de FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -130,7 +136,17 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+    // Function to update posture status dynamically
+    public void updatePosture(double voltage) {
+        if (voltage > 0.8) {
+            postureText.setText("Posture: Good");
+            postureBox.setBackgroundResource(R.drawable.posture_box_background);
+        } else {
+            postureText.setText("Posture: Bad");
+            postureBox.setBackgroundResource(R.drawable.posture_box_background_bad);
 
+        }
+    }
 
 
     private void checkAndRequestBluetoothPermissions() {
