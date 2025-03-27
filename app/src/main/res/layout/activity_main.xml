@@ -34,7 +34,7 @@
         android:id="@+id/statusTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status: Connected"
+        android:text=""
         android:textColor="#4CAF50"
         android:textSize="18sp"
         android:layout_below="@id/welcomeTxt"
@@ -154,7 +154,7 @@
             android:layout_height="60dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/button_ripple"
-            android:text="Set Temperature"
+            android:text="Temperature"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
