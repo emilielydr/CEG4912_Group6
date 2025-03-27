@@ -69,9 +69,11 @@ public class TemperatureActivity extends AppCompatActivity {
                         coolingOff.setVisibility(ImageView.GONE);
                     } else {
                         showToast("Temperature data not found");
+                        tempStatusTextView.setText("Status: Unknown");
                     }
                 } else {
                     showToast("No temperature data available");
+                    tempStatusTextView.setText("Status: Unavailable");
                 }
             }
 
