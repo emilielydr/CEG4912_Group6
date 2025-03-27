@@ -3,6 +3,8 @@ package com.example.capstone;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ public class PostureActivity extends AppCompatActivity {
 
     private TextView postureTextView;// Add a  TextView for posture
     private DatabaseReference  pressureDatabaseRef;
+    private ImageView imgGoodPosture, imgBadPosture;
     private Handler handler;
 
     @Override
@@ -40,6 +43,8 @@ public class PostureActivity extends AppCompatActivity {
         // Initialize TextViews
         postureTextView = findViewById(R.id.postureTextView); // New TextView for posture
         handler = new Handler(Looper.getMainLooper());
+        imgGoodPosture = findViewById(R.id.img_good_posture);
+        imgBadPosture = findViewById(R.id.img_bad_posture);
 
         pressureDatabaseRef = FirebaseDatabase.getInstance().getReference("capteur_pression");
         fetchPosture();
@@ -57,10 +62,14 @@ public class PostureActivity extends AppCompatActivity {
                             postureTextView.setText("Good Posture");
                             postureTextView.setTextColor(getResources().getColor(android.R.color.white));
                             postureTextView.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
+                            imgGoodPosture.setVisibility(View.VISIBLE);
+                            imgBadPosture.setVisibility(View.GONE);
                         } else {
                             postureTextView.setText("Bad Posture");
                             postureTextView.setTextColor(getResources().getColor(android.R.color.white));
                             postureTextView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+                            imgGoodPosture.setVisibility(View.GONE);
+                            imgBadPosture.setVisibility(View.VISIBLE);
 
                         }
                     }
