@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView postureText;
     private FrameLayout postureBox;
+    private TextView welcomeTxt;
 
 
 
@@ -77,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialisation de FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
+        welcomeTxt = findViewById(R.id.welcomeTxt);
+        String username = firebaseAuth.getCurrentUser() != null ? firebaseAuth.getCurrentUser().getDisplayName() : "User";
+        welcomeTxt.setText("Welcome, " + username);
+
 
         ImageView wheelChairImg = findViewById(R.id.wheelChairImg);
         Button openGPSButton = findViewById(R.id.btnGPS);
