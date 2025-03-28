@@ -113,6 +113,7 @@
         android:src="@drawable/ic_settings" />
 
     <!-- 🔹 WebView to display Raspberry Pi Camera Stream -->
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
