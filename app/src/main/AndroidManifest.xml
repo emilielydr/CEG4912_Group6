@@ -59,6 +59,9 @@
         <activity
             android:name=".HelpActivity"
             android:exported="true" />
+        <activity
+            android:name=".ContactActivity"
+            android:exported="true" />
 
     </application>
 

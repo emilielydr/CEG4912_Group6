@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SettingsActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
-    private Button btnSignOut, btnHelp;
+    private Button btnSignOut, btnHelp, btnContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +21,20 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Button btnBackSettings= findViewById(R.id.btnBackSettings);
         Button btnHelp=findViewById(R.id.btnHelp);
+        Button btnContact=findViewById(R.id.btnContact);
         btnHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create an Intent to open SettingsActivity
                 Intent intent = new Intent(SettingsActivity.this, HelpActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to open SettingsActivity
+                Intent intent = new Intent(SettingsActivity.this, ContactActivity.class);
                 startActivity(intent);
             }
         });
