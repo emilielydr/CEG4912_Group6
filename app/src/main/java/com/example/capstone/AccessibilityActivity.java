@@ -147,17 +147,28 @@ public class AccessibilityActivity extends AppCompatActivity {
 
     // Reset settings to original values (font size, brightness, etc.)
     private void resetSettings() {
-        currentTextSize = 16f; // Reset font size to default
-        brightness = 128; // Reset brightness to a default value (middle point)
+        // Reset font size to default
+        currentTextSize = 16f;
 
+        // Reset brightness to a default value (middle point)
+        brightness = 128;
+
+        // Reset text size in shared preferences
         preferences.edit().putFloat("fontSize", currentTextSize).apply();
+
+        // Reset screen brightness
         Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);
         WindowManager.LayoutParams layoutParams = window.getAttributes();
         layoutParams.screenBrightness = brightness / (float) 300;
         window.setAttributes(layoutParams);
 
+        // Reset to light mode (AppCompatDelegate.MODE_NIGHT_NO)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        // Apply changes
         applyTextSizeToAllViews(findViewById(android.R.id.content)); // Reapply font size
     }
+
 
     // Apply text size to all views
     private void applyTextSizeToAllViews(View view) {

@@ -26,14 +26,26 @@ public class ContactActivity extends AppCompatActivity {
     }
     private void applyTextSizeToAllViews(View view) {
         if (view instanceof TextView) {
+            // Exclude wheelChairTxt from resizing
+            if (view.getId() == R.id.wheelChairTxt) {
+                return;
+            }
             ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_SP, currentTextSize);
         } else if (view instanceof ViewGroup) {
             ViewGroup group = (ViewGroup) view;
             for (int i = 0; i < group.getChildCount(); i++) {
-                applyTextSizeToAllViews(group.getChildAt(i));
+                View child = group.getChildAt(i);
+
+                // Exclude myImageView from resizing
+                if (child.getId() == R.id.myImageView) {
+                    continue;
+                }
+
+                applyTextSizeToAllViews(child);
             }
         }
     }
+
 
 
 
