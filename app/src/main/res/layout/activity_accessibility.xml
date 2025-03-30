@@ -162,6 +162,41 @@
             app:layout_constraintStart_toStartOf="@id/btnColorScheme"
             app:layout_constraintTop_toBottomOf="@id/btnColorScheme" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnIncreaseTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="240dp"
+        android:background="@drawable/rounded_button_background"
+        android:padding="16dp"
+        android:text="+"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.773"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wheelChairTxt" />
+
+    <Button
+        android:id="@+id/btnDecreaseTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="240dp"
+        android:background="@drawable/rounded_button_background"
+        android:padding="16dp"
+        android:text="-"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wheelChairTxt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
