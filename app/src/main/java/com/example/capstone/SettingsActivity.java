@@ -30,7 +30,6 @@ public class SettingsActivity extends AppCompatActivity {
         // Initialize FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
 
-
         // Button to navigate to AccessibilityActivity
         btnAccessibility.setOnClickListener(new View.OnClickListener() {
             @Override

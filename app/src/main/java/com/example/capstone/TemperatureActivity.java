@@ -3,6 +3,7 @@ package com.example.capstone;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +21,11 @@ import com.google.firebase.database.ValueEventListener;
 
 public class TemperatureActivity extends AppCompatActivity {
 
-    private TextView tempTextView, postureTextView; // Add a new TextView for posture
+
     private DatabaseReference tempDatabaseRef, pressureDatabaseRef;
     private Handler handler;
+    private TextView tempTextView, tempStatusTextView;
+    private ImageView coolingIcon, coolingOff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +42,18 @@ public class TemperatureActivity extends AppCompatActivity {
 
         // Initialize TextViews
         tempTextView = findViewById(R.id.tempTextView);
-        postureTextView = findViewById(R.id.postureTextView); // New TextView for posture
+        tempStatusTextView = findViewById(R.id.tempStatusTextView);
+        coolingIcon = findViewById(R.id.coolingIcon);
+        coolingOff = findViewById(R.id.coolingOff);
+        //postureTextView = findViewById(R.id.postureTextView); // New TextView for posture
         handler = new Handler(Looper.getMainLooper());
 
         // Firebase Database references
         tempDatabaseRef = FirebaseDatabase.getInstance().getReference("temperature_data");
-        pressureDatabaseRef = FirebaseDatabase.getInstance().getReference("capteur_pression");
 
-        // Fetch temperature and posture data
+        // Fetch temperature
         fetchTemperature();
-        fetchPosture();
+
     }
 
     private void fetchTemperature() {
@@ -59,43 +64,22 @@ public class TemperatureActivity extends AppCompatActivity {
                     Double temperature = snapshot.child("temperature").getValue(Double.class);
                     if (temperature != null) {
                         tempTextView.setText("Temperature: " + temperature + " °C");
+                        tempStatusTextView.setText("Status: Cooling");
+                        coolingIcon.setVisibility(ImageView.VISIBLE);
+                        coolingOff.setVisibility(ImageView.GONE);
                     } else {
                         showToast("Temperature data not found");
+                        tempStatusTextView.setText("Status: Unknown");
                     }
                 } else {
                     showToast("No temperature data available");
+                    tempStatusTextView.setText("Status: Unavailable");
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 showToast("Failed to read temperature: " + error.getMessage());
-            }
-        });
-    }
-
-    private void fetchPosture() {
-        pressureDatabaseRef.child("voltage").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Double voltage = snapshot.getValue(Double.class);
-                    if (voltage != null) {
-                        // Determine posture based on voltage threshold
-                        if (voltage > 0.8) {
-                            postureTextView.setText("Good Posture");
-                            postureTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-                        } else {
-                            postureTextView.setText("Bad Posture");
-                            postureTextView.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                showToast("Failed to read posture: " + error.getMessage());
             }
         });
     }

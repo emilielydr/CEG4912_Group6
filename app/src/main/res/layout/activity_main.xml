@@ -34,7 +34,7 @@
         android:id="@+id/statusTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status: Connected"
+        android:text=""
         android:textColor="#4CAF50"
         android:textSize="18sp"
         android:layout_below="@id/welcomeTxt"
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="25°C"
+            android:text="-- °C"
             android:textColor="#081c54"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -83,7 +83,6 @@
         android:layout_toEndOf="@id/tempBox"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
-        android:background="@drawable/posture_box_background"
         android:gravity="center"
         android:padding="8dp">
 
@@ -92,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Posture: Good"
+            android:text="Posture: ----"
             android:textColor="#081c54"
             android:textSize="25sp"
             android:textStyle="bold"
@@ -156,7 +155,7 @@
             android:layout_height="60dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/button_ripple"
-            android:text="Set Temperature"
+            android:text="Temperature"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
