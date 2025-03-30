@@ -1,16 +1,20 @@
 package com.example.capstone;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -20,12 +24,19 @@ public class AccessibilityActivity extends AppCompatActivity {
     private int brightness;
     private ContentResolver contentResolver;
     private Window window;
+    private float currentTextSize;
+    private SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accessibility);
         Button btnBackSettings= findViewById(R.id.btnBackAccessibility);
         ImageButton btnColorScheme=findViewById(R.id.btnColorScheme);
+        ImageButton btnTextSize=findViewById(R.id.btnTextSize);
+
+        preferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
+        currentTextSize = preferences.getFloat("fontSize", 16f); // Load saved size
+
         btnBackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,6 +45,22 @@ public class AccessibilityActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnTextSize.setOnClickListener(v -> {
+            currentTextSize += 2;
+            if (currentTextSize > 24) currentTextSize = 16; // Reset cycle
+
+            preferences.edit().putFloat("fontSize", currentTextSize).apply();
+
+            // Apply new font size immediately
+            applyTextSizeToAllViews(findViewById(android.R.id.content));
+
+            // Restart the app to apply changes globally
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
+        applyTextSizeToAllViews(findViewById(android.R.id.content));
         ImageButton btnBrightness = findViewById(R.id.btnBrightness);
         SeekBar brightnessSlider = findViewById(R.id.brightnessSlider);
         contentResolver=getContentResolver();
@@ -102,6 +129,16 @@ public class AccessibilityActivity extends AppCompatActivity {
 
 
 
+    }
+    private void applyTextSizeToAllViews(View view) {
+        if (view instanceof TextView) {
+            ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_SP, currentTextSize);
+        } else if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                applyTextSizeToAllViews(group.getChildAt(i));
+            }
+        }
     }
 
 }
