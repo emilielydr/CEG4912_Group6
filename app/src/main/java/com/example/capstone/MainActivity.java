@@ -3,6 +3,7 @@ package com.example.capstone;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,7 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -41,11 +44,19 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
     private DatabaseReference tempDatabaseRef;
+    private float currentTextSize;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        preferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
+        currentTextSize = preferences.getFloat("fontSize", 16f); // Load saved size
+
+        // Apply the text size to all views in this activity
+        applyTextSizeToAllViews(findViewById(android.R.id.content));
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         checkAndRequestBluetoothPermissions();
@@ -138,5 +149,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         firebaseAuth.signOut();
+    }
+    private void applyTextSizeToAllViews(View view) {
+        if (view instanceof TextView) {
+            ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_SP, currentTextSize);
+        } else if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                applyTextSizeToAllViews(group.getChildAt(i));
+            }
+        }
     }
 }

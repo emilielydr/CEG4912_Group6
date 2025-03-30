@@ -1,9 +1,12 @@
 package com.example.capstone;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +29,8 @@ public class PostureActivity extends AppCompatActivity {
     private DatabaseReference  pressureDatabaseRef;
     private ImageView imgGoodPosture, imgBadPosture;
     private Handler handler;
+    private float currentTextSize;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,12 @@ public class PostureActivity extends AppCompatActivity {
 
         pressureDatabaseRef = FirebaseDatabase.getInstance().getReference("capteur_pression");
         fetchPosture();
+
+        preferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
+        currentTextSize = preferences.getFloat("fontSize", 16f); // Load saved size
+
+        // Apply the text size to all views in this activity
+        applyTextSizeToAllViews(findViewById(android.R.id.content));
     }
 
     private void fetchPosture() {
@@ -85,5 +96,15 @@ public class PostureActivity extends AppCompatActivity {
 
     private void showToast(String message) {
         handler.post(() -> Toast.makeText(this, message, Toast.LENGTH_LONG).show());
+    }
+    private void applyTextSizeToAllViews(View view) {
+        if (view instanceof TextView) {
+            ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_SP, currentTextSize);
+        } else if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                applyTextSizeToAllViews(group.getChildAt(i));
+            }
+        }
     }
 }

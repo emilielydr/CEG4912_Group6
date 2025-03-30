@@ -1,4 +1,6 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/rootLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,17 +12,15 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:fillViewport="true">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:layout_gravity="center">
+            android:padding="16dp">
 
-            <!-- Image for WheelChair+ logo -->
+            <!-- App Logo -->
             <ImageView
                 android:id="@+id/wheelChairImage"
                 android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_gravity="center"/>
 
-            <!-- Text for WheelChair+ title -->
+            <!-- App Title -->
             <TextView
                 android:id="@+id/wheelChairTxt"
                 android:layout_width="wrap_content"
@@ -41,10 +41,10 @@
                 android:layout_marginBottom="16dp"
                 android:layout_gravity="center"/>
 
-            <!-- Introduction Section -->
+            <!-- Introduction -->
             <TextView
                 android:id="@+id/introText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="WheelChair+ is an advanced wheelchair project designed to enhance comfort, functionality, and accessibility for users. This help page provides guidance on the project’s features, usage, and troubleshooting."
                 android:textSize="16sp"
@@ -53,26 +53,30 @@
             <!-- Features Title -->
             <TextView
                 android:id="@+id/featuresTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Features"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#2F71BD"
                 android:layout_marginBottom="8dp"/>
 
-            <!-- Features List (Can be a scrollable list) -->
+            <!-- Features List -->
             <TextView
                 android:id="@+id/featuresList"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1. User Interface (UI)\nHomepage: Overview of system functionalities.\nLogin Page: Secure access to user profiles.\nSettings: Customization options for accessibility and preferences.\nAccessibility Features: Voice commands, screen readers, and large text options.\nCooling Controls: Automated temperature regulation for comfort.\nGPS Navigation: Integrated mapping and routing.\nCamera Integration: Live feed for obstacle detection and safety.\n\n2. Hardware Components\nController: Central processing unit managing all functions.\nI/O Interfaces: Touchscreen, buttons, and joystick for control.\nActive Hardware: Sensors, motors, and actuators for movement and response.\n\n3. Software Architecture\nFront-End: Graphical interface using an intuitive layout.\nBack-End: Cloud-based Firebase database for data storage and processing.\n\n4. Testing and Verification\nSoftware Testing: Performance checks and error handling.\nHardware Testing: Component-level testing and system integration verification."
+                android:text="1. User Interface (UI): Provides a user-friendly experience for controlling wheelchair settings. \n\n
+                              2. Real-time GPS Tracking: Allows users and caregivers to monitor location. \n\n
+                              3. Smart Speed Control: Automatically adjusts speed based on terrain and obstacles. \n\n
+                              4. Battery Efficiency Monitoring: Displays estimated battery life and alerts for charging. \n\n
+                              5. Secure Login and User Profiles: Users can log in and save personalized settings."
                 android:textSize="14sp"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Troubleshooting Title -->
             <TextView
                 android:id="@+id/troubleshootingTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Troubleshooting"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -82,16 +86,18 @@
             <!-- Troubleshooting List -->
             <TextView
                 android:id="@+id/troubleshootingList"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1. Login Issues\nEnsure the correct credentials are used.\nReset password if login fails.\nVerify internet connectivity for cloud authentication.\n\n2. Navigation and GPS Problems\nCheck GPS settings in the application.\nRestart the system if navigation does not load.\nEnsure the wheelchair is in an open area with clear satellite visibility.\n\n3. Hardware Malfunctions\nEnsure all cables and power connections are secure.\nPerform a system reboot.\nRefer to user manual for hardware-specific troubleshooting.\n\n4. Cooling System Not Responding\nCheck temperature settings in the app.\nVerify that the cooling module is properly connected.\nRestart the system."
+                android:text="1. **Login Issues**: If you can’t log in, try resetting your password via the app’s settings. \n\n
+                              2. **Slow Response**: Ensure the system is updated to the latest version. \n\n
+                              3. **Connectivity Problems**: Check WiFi/Bluetooth and restart the device if necessary."
                 android:textSize="14sp"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Future Enhancements Title -->
             <TextView
                 android:id="@+id/futureEnhancementsTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Future Enhancements"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -101,19 +107,23 @@
             <!-- Future Enhancements List -->
             <TextView
                 android:id="@+id/futureEnhancementsList"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="• Improved AI-assisted navigation.\n• Enhanced user experience with voice and gesture controls.\n• Integration with health monitoring systems."
+                android:text="• Improved AI-assisted navigation with obstacle avoidance. \n\n
+                              • Advanced voice control integration. \n\n
+                              • Real-time health monitoring and fall detection."
                 android:textSize="14sp"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- Contact Support Section -->
+            <!-- Contact Support -->
             <TextView
                 android:id="@+id/contactSupport"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="For additional support, contact the development team at support@wheelchairplus.com."
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginBottom="16dp"/>
 
         </LinearLayout>
     </ScrollView>
