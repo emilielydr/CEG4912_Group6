@@ -1,24 +1,50 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.Capstone" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">#2F71BD</item>
-        <item name="colorPrimaryVariant">#2F71BD</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+    <!-- Base application theme for Dark Mode. -->
+    <style name="Theme.Capstone" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/backgrounddark</item>
+        <!-- Primary brand color (dark mode version). -->
+        <item name="colorPrimary">#1A3D73</item> <!-- Darker shade of blue -->
+        <item name="colorPrimaryVariant">#1A3D73</item>
+        <item name="colorOnPrimary">#FFFFFF</item> <!-- White for text on primary color -->
+
+        <!-- Secondary brand color (dark mode version). -->
+        <item name="colorSecondary">#004d40</item> <!-- Dark teal -->
+        <item name="colorSecondaryVariant">#00695c</item> <!-- Darker teal -->
+        <item name="colorOnSecondary">#FFFFFF</item> <!-- White for text on secondary color -->
+
+        <!-- Status bar color (dark mode) -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
     </style>
-    <style name="CustomButtonStyle">
-        <item name="android:background">@drawable/buttons_background</item>
-        <item name="android:textColor">#2F71BD</item>
+
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+        <!-- Ripple effect background for dark theme -->
+        <item name="android:background">@drawable/button_ripple_dark</item> <!-- You may want to create a darker ripple drawable -->
+
+        <!-- White text color -->
+        <item name="android:textColor">#FFFFFF</item>
+
+        <!-- Larger text size for accessibility -->
         <item name="android:textSize">20sp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:layout_marginBottom">16dp</item>
+
+        <!-- Modern button size -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
+
+        <!-- Margin to space out buttons -->
+        <item name="android:layout_marginBottom">12dp</item>
+
+        <!-- Subtle shadow effect for depth -->
+        <item name="android:elevation">6dp</item>
+
+        <!-- Focusable for accessibility -->
+        <item name="android:focusable">true</item>
+
+        <item name="android:importantForAccessibility">yes</item>
+
+        <!-- Accessibility content description -->
+        <item name="android:contentDescription">Interactive button</item>
     </style>
+
 </resources>
