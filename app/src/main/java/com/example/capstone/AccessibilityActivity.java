@@ -11,9 +11,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 public class AccessibilityActivity extends AppCompatActivity {
     private SeekBar brightnessSlider;
     private int brightness;
@@ -24,6 +25,7 @@ public class AccessibilityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accessibility);
         Button btnBackSettings= findViewById(R.id.btnBackAccessibility);
+        ImageButton btnColorScheme=findViewById(R.id.btnColorScheme);
         btnBackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +43,6 @@ public class AccessibilityActivity extends AppCompatActivity {
 
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
             if(Settings.System.canWrite((this))){
-                Toast.makeText(this,"you can change the brightness", Toast.LENGTH_SHORT).show();
             }else{
                 Intent intent=new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
                 intent.setData(Uri.parse(("package: "+getApplication().getPackageName())));
@@ -86,6 +87,21 @@ public class AccessibilityActivity extends AppCompatActivity {
                 }
             }
         });
+        btnColorScheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toggle between light and dark mode
+                int currentMode = AppCompatDelegate.getDefaultNightMode();
+                if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+            }
+        });
+
+
+
     }
 
 }
