@@ -27,7 +27,7 @@ public class AccessibilityActivity extends AppCompatActivity {
     private Window window;
     private float currentTextSize;
     private SharedPreferences preferences;
-    private Button btnIncreaseTextSize, btnDecreaseTextSize;
+    private Button btnIncreaseTextSize, btnDecreaseTextSize, btnReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,27 +39,32 @@ public class AccessibilityActivity extends AppCompatActivity {
         ImageButton btnTextSize = findViewById(R.id.btnTextSize);
         btnIncreaseTextSize = findViewById(R.id.btnIncreaseTextSize);
         btnDecreaseTextSize = findViewById(R.id.btnDecreaseTextSize);
+        btnReset = findViewById(R.id.btnReset);
 
         preferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
         currentTextSize = preferences.getFloat("fontSize", 16f); // Load saved size
 
-        btnBackSettings.setOnClickListener(v -> {
-            // Create an Intent to open SettingsActivity
-            Intent intent = new Intent(AccessibilityActivity.this, SettingsActivity.class);
-            startActivity(intent);
+        // Set up the back button
+        btnBackSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AccessibilityActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
         });
 
-        // Toggle visibility of text size buttons
+        // Text size toggle buttons
         btnTextSize.setOnClickListener(v -> toggleTextSizeButtons());
-
-        // Increase or decrease text size
         btnIncreaseTextSize.setOnClickListener(v -> changeTextSize(2));
         btnDecreaseTextSize.setOnClickListener(v -> changeTextSize(-2));
 
-        // Apply current text size to all views
+        // Reset button functionality
+        btnReset.setOnClickListener(v -> resetSettings());
+
+        // Apply text size
         applyTextSizeToAllViews(findViewById(android.R.id.content));
 
-        // Brightness settings
+        // Setup brightness slider
         ImageButton btnBrightness = findViewById(R.id.btnBrightness);
         brightnessSlider = findViewById(R.id.brightnessSlider);
         contentResolver = getContentResolver();
@@ -68,18 +73,21 @@ public class AccessibilityActivity extends AppCompatActivity {
         brightnessSlider.setKeyProgressIncrement(1);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.System.canWrite(this)) {
+            if (Settings.System.canWrite(this)) {
+                // Already have permission to change brightness
+            } else {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
                 intent.setData(Uri.parse("package:" + getApplication().getPackageName()));
                 startActivity(intent);
             }
         }
 
+        // Set current brightness slider position
         try {
             brightness = Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS);
             brightnessSlider.setProgress(brightness);
         } catch (Settings.SettingNotFoundException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         brightnessSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -93,43 +101,41 @@ public class AccessibilityActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar brightnessSlider) {}
+            public void onStartTrackingTouch(SeekBar brightnessSlider) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar brightnessSlider) {}
-        });
-
-        // Toggle visibility of the brightness slider
-        btnBrightness.setOnClickListener(v -> {
-            if (brightnessSlider.getVisibility() == View.GONE) {
-                brightnessSlider.setVisibility(View.VISIBLE);
-            } else {
-                brightnessSlider.setVisibility(View.GONE);
+            public void onStopTrackingTouch(SeekBar brightnessSlider) {
             }
         });
 
-        // Toggle between light and dark mode
-        btnColorScheme.setOnClickListener(v -> {
-            int currentMode = AppCompatDelegate.getDefaultNightMode();
-            if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        // Toggle brightness slider visibility
+        btnBrightness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (brightnessSlider.getVisibility() == View.GONE) {
+                    brightnessSlider.setVisibility(View.VISIBLE);
+                } else {
+                    brightnessSlider.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // Toggle between light and dark modes
+        btnColorScheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentMode = AppCompatDelegate.getDefaultNightMode();
+                if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
             }
         });
     }
 
-    private void toggleTextSizeButtons() {
-        // Toggle visibility of the text size buttons
-        if (btnIncreaseTextSize.getVisibility() == View.GONE) {
-            btnIncreaseTextSize.setVisibility(View.VISIBLE);
-            btnDecreaseTextSize.setVisibility(View.VISIBLE);
-        } else {
-            btnIncreaseTextSize.setVisibility(View.GONE);
-            btnDecreaseTextSize.setVisibility(View.GONE);
-        }
-    }
-
+    // Increase or decrease text size
     private void changeTextSize(int change) {
         currentTextSize += change;
         if (currentTextSize < 12) currentTextSize = 12; // Set a minimum size
@@ -137,13 +143,23 @@ public class AccessibilityActivity extends AppCompatActivity {
 
         preferences.edit().putFloat("fontSize", currentTextSize).apply();
         applyTextSizeToAllViews(findViewById(android.R.id.content));
-
-        // Restart the app to apply changes globally
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
+    // Reset settings to original values (font size, brightness, etc.)
+    private void resetSettings() {
+        currentTextSize = 16f; // Reset font size to default
+        brightness = 128; // Reset brightness to a default value (middle point)
+
+        preferences.edit().putFloat("fontSize", currentTextSize).apply();
+        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);
+        WindowManager.LayoutParams layoutParams = window.getAttributes();
+        layoutParams.screenBrightness = brightness / (float) 300;
+        window.setAttributes(layoutParams);
+
+        applyTextSizeToAllViews(findViewById(android.R.id.content)); // Reapply font size
+    }
+
+    // Apply text size to all views
     private void applyTextSizeToAllViews(View view) {
         if (view instanceof TextView) {
             ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_SP, currentTextSize);
@@ -152,6 +168,17 @@ public class AccessibilityActivity extends AppCompatActivity {
             for (int i = 0; i < group.getChildCount(); i++) {
                 applyTextSizeToAllViews(group.getChildAt(i));
             }
+        }
+    }
+
+    // Toggle visibility of text size buttons
+    private void toggleTextSizeButtons() {
+        if (btnIncreaseTextSize.getVisibility() == View.GONE) {
+            btnIncreaseTextSize.setVisibility(View.VISIBLE);
+            btnDecreaseTextSize.setVisibility(View.VISIBLE);
+        } else {
+            btnIncreaseTextSize.setVisibility(View.GONE);
+            btnDecreaseTextSize.setVisibility(View.GONE);
         }
     }
 }
