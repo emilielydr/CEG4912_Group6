@@ -14,9 +14,9 @@
             <corners android:radius="12dp" />
             <gradient
                 android:startColor="#4fc3f7"
-                android:endColor="#f44336"
-                android:angle="0"
-                android:type="linear" />
+            android:endColor="#f44336"
+            android:angle="0"
+            android:type="linear" />
             <stroke android:color="#081c54" android:width="2dp" /> <!-- Dark border around the progress bar -->
         </shape>
     </item>
