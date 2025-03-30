@@ -49,7 +49,6 @@
         app:layout_constraintTop_toTopOf="@id/myImageView"
         app:layout_constraintVertical_bias="1.0" />
 
-
     <TextView
         android:id="@+id/usrSettingsTxt"
         android:layout_width="wrap_content"
@@ -100,6 +99,16 @@
             app:layout_constraintEnd_toEndOf="@id/btnBrightness"
             app:layout_constraintStart_toStartOf="@id/btnBrightness"
             app:layout_constraintTop_toBottomOf="@id/btnBrightness" />
+
+        <!-- Brightness Slider -->
+        <SeekBar
+            android:id="@+id/brightnessSlider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/brightnessLabel" />
 
         <!-- Text Size Option -->
         <ImageButton
@@ -154,7 +163,5 @@
             app:layout_constraintTop_toBottomOf="@id/btnColorScheme" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
