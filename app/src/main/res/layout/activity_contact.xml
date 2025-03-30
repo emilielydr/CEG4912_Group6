@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".PostureActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundapp1"
+    android:gravity="center">
+
+    <FrameLayout
+        android:layout_width="111dp"
+        android:layout_height="110dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.082">
+        <ImageView
+            android:id="@+id/myImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/wheelchair" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="251dp"
+        android:layout_height="109dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.081">
+
+        <TextView
+            android:id="@+id/wheelChairTxt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/vintagebrush"
+            android:gravity="center"
+            android:text=" WheelChair+"
+            android:textColor="#2F71BD"
+            android:textSize="40sp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/contactHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact Us"
+        android:textColor="#2F71BD"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_marginTop="20dp" />
+
+    <!-- Authors -->
+
+    <!-- Author Emails -->
+
+    <TextView
+        android:id="@+id/emails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="184dp"
+        android:gravity="center"
+        android:text="Author E-Mails:\n\nnle056@uottawa.ca\nawils129@uottawa.ca\nedesr021@uottawa.ca\najenn081@uottawa.ca\nhle076@uottawa.ca\nrbens047@uottawa.ca"
+        android:textColor="#2F71BD"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/contactHeader"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:id="@+id/img_bad_posture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="428dp"
+        android:src="@drawable/img_bad_posture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/contactHeader" />
+
+    <ImageView
+        android:id="@+id/img_good_posture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="428dp"
+        android:src="@drawable/img_good_posture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactHeader"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
