@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SettingsActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
-    private Button btnSignOut, btnHelp, btnContact, btnAccessibility, btnBackSettings;
+    private Button btnSignOut, btnHelp, btnContact, btnAccessibility, btnBackSettings, btnEditProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         btnHelp = findViewById(R.id.btnHelp);
         btnContact = findViewById(R.id.btnContact);
         btnSignOut = findViewById(R.id.btnSignOut);
+        btnEditProfile = findViewById(R.id.btnEditProfile);
 
         // Initialize FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -44,6 +45,14 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SettingsActivity.this, HelpActivity.class);
+                startActivity(intent);
+            }
+        });
+        // Button to navigate to EditProfile
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, EditProfileActivity.class);
                 startActivity(intent);
             }
         });
