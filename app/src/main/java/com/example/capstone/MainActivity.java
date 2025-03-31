@@ -12,6 +12,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
+import static androidx.core.location.LocationManagerCompat.getCurrentLocation;
+import com.google.android.gms.location.FusedLocationProviderClient;
+
+import android.location.Location;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -41,14 +47,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView postureText, tempTextView;
     private FrameLayout postureBox;
     private FirebaseAuth firebaseAuth;
-    private BluetoothAdapter bluetoothAdapter;
-    private static final int REQUEST_ENABLE_BT = 1;
+
     private DatabaseReference tempDatabaseRef, postureDatabaseRef;
+    private FusedLocationProviderClient fusedLocationClient;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private float currentTextSize;
     private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -58,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
         // Apply the text size to all views in this activity
         applyTextSizeToAllViews(findViewById(android.R.id.content));
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        checkAndRequestBluetoothPermissions();
+
         postureText = findViewById(R.id.postureText);
         postureBox = findViewById(R.id.postureBox);
         tempTextView = findViewById(R.id.tempText); // Ajout du TextView pour la température
@@ -90,7 +97,16 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Affichage du flux vidéo", Toast.LENGTH_SHORT).show();
         });
 
-        openGPSButton.setOnClickListener(v -> openMaps());
+        openGPSButton.setOnClickListener(v -> {
+            // Ensure location permission is granted before calling getCurrentLocation
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                getCurrentLocation(true);  // Fetch the current location
+            } else {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        });
+
         btnTemperature.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, TemperatureActivity.class)));
         btnPosture.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, PostureActivity.class)));
         btnSettings.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
@@ -99,6 +115,48 @@ public class MainActivity extends AppCompatActivity {
         postureDatabaseRef = FirebaseDatabase.getInstance().getReference("capteur_pression");
         fetchTemperature();
         fetchPosture();
+    }
+    private void getCurrentLocation(boolean openMap) {
+        try {
+            // Get the last known location
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                // If location is available, check if we need to open the map
+                                if (openMap) {
+                                    openMaps(location.getLatitude(), location.getLongitude());
+                                }
+                            } else {
+                                Log.e("LocationError", "Failed to get current location.");
+                                Toast.makeText(MainActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } catch (SecurityException e) {
+            Log.e("LocationError", "SecurityException: " + e.getMessage());
+            Toast.makeText(this, "Permission error while accessing location", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with getting location
+                getCurrentLocation(true);
+            } else {
+                // Permission denied, show a message to the user
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void openMaps(double latitude, double longitude) {
+        Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
     private void fetchTemperature() {
@@ -124,28 +182,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkAndRequestBluetoothPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.BLUETOOTH_CONNECT,
-                        Manifest.permission.BLUETOOTH_SCAN
-                }, REQUEST_ENABLE_BT);
-            }
-        } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_ENABLE_BT);
-            }
-        }
-    }
 
-    private void openMaps() {
-        Uri gmmIntentUri = Uri.parse("geo:0,0?q=restaurants");
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
-    }
 
     @Override
     protected void onDestroy() {
