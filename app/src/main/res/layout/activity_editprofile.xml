@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".EditProfileActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundapp1"
+    android:paddingTop="20dp">
+
+    <TextView
+        android:id="@+id/titleTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/vintagebrush"
+        android:text="Edit Profile"
+        android:textColor="#2F71BD"
+        android:textSize="35sp" />
+
+    <EditText
+        android:id="@+id/inputEmergencyContact"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/titleTxt"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="14dp"
+
+        android:hint="Emergency Contact"
+        android:padding="10dp"
+        android:textColor="#081c54"
+        android:textSize="18sp" />
+
+
+    <EditText
+        android:id="@+id/inputEmail"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/inputEmergencyContact"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/white"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textColor="#081c54"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/locationToggleTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputEmail"
+        android:layout_marginTop="108dp"
+        android:layout_marginStart="30dp"
+        android:text="Send live location every 30 min"
+        android:textColor="#2F71BD"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/toggleSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="70dp"
+        android:textColor="#2F71BD"
+        android:textSize="25sp"
+        android:layout_centerVertical="true"/>
+
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/toggleSwitch"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="120dp"
+        android:background="@drawable/button_ripple"
+        android:text="Save"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+</RelativeLayout>
