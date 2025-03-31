@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private BluetoothAdapter bluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
-    private DatabaseReference tempDatabaseRef;
+    private DatabaseReference tempDatabaseRef, postureDatabaseRef;
     private float currentTextSize;
     private SharedPreferences preferences;
 
@@ -96,7 +96,9 @@ public class MainActivity extends AppCompatActivity {
         btnSettings.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
 
         tempDatabaseRef = FirebaseDatabase.getInstance().getReference("temperature_data");
+        postureDatabaseRef = FirebaseDatabase.getInstance().getReference("capteur_pression");
         fetchTemperature();
+        fetchPosture();
     }
 
     private void fetchTemperature() {
@@ -159,5 +161,41 @@ public class MainActivity extends AppCompatActivity {
                 applyTextSizeToAllViews(group.getChildAt(i));
             }
         }
+    }
+    // Function to update posture status dynamically
+    private void fetchPosture() {
+        postureDatabaseRef.child("voltage").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Double voltage = snapshot.getValue(Double.class);
+                    if (voltage != null) {
+                        // Determine posture based on voltage threshold
+                        String postureStatus;
+                        if (voltage > 0.8) {
+                            postureStatus = "Good Posture";
+                            postureText.setText("Posture Status : Good");
+                            postureText.setTextColor(getResources().getColor(android.R.color.white));
+                            postureText.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
+
+                        } else {
+                            postureStatus = "Bad Posture";
+                            postureText.setText("Posture Status : Bad");
+                            postureText.setTextColor(getResources().getColor(android.R.color.white));
+                            postureText.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+
+                        }
+
+                        // Save the posture status to Firebase for MainActivity to read
+                        FirebaseDatabase.getInstance().getReference("posture_data").child("posture").setValue(postureStatus);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Failed to read posture", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
